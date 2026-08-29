@@ -1,0 +1,2 @@
+# JajkoAPP
+Aplikacja jajko
