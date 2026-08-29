@@ -1,0 +1,5 @@
+streamlit>=1.57
+google-genai
+pandas
+pydantic
+reportlab
