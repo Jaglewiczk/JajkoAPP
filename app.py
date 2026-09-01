@@ -1,9 +1,3 @@
-"""Generator checklist magazynowych dla firmy cateringowej.
-
-Ta aplikacja nie odczytuje plikow Excel podczas pracy. Slownik i reguly sa
-zapisane ponizej w Pythonie. Excel byl tylko materialem do ich przygotowania.
-"""
-
 from __future__ import annotations
 
 import io
@@ -29,10 +23,8 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 from slownik_pelny import DANE_SLOWNIKA
 
 
-# ---------------------------------------------------------------------------
 # KONFIGURACJA GEMINI
-# Zostawiamy klucz w kodzie, zgodnie z ustaleniem. Wklej tu swoj aktualny klucz.
-# ---------------------------------------------------------------------------
+
 API_KEY = "AQ.Ab8RN6KjmjHiNd63tN84AzhbA89sbacPadEtlBMH-m0D-ozJfw"
 MODEL_NAME = "gemini-3.7-flash"
 
@@ -52,10 +44,9 @@ def artykul(kod: str, nazwa: str, jednostka: str = "SZT", opakowanie: int = 1, u
     return Artykul(kod, nazwa, jednostka, opakowanie, uwagi)
 
 
-# ---------------------------------------------------------------------------
-# SLOWNIK ARTYKULOW (zapisany w kodzie, bez zaleznosci od .xlsx)
-# Kolejne pozycje dopisuje sie jedna linia wedlug wzoru artykul(...).
-# ---------------------------------------------------------------------------
+# SLOWNIK ARTYKULOW
+
+
 _ARTYKULY = [
     artykul("STOL_BUFET", "STÓŁ BUFETOWY 150"),
     artykul("STOL_KOKTAJL", "STÓŁ KOKTAJLOWY 80"),
@@ -134,8 +125,8 @@ _ARTYKULY = [
     artykul("STEND_MENU", "STEND DO MENU A5"),
 ]
 
-# Do recznego slownika dodajemy wszystkie pozostale pozycje z materialu
-# zrodlowego. Core ma czytelne kody wykorzystywane przez silnik, a reszta jest
+
+# Core ma czytelne kody wykorzystywane przez silnik, a reszta jest
 # dostepna w przycisku "Dodaj ze slownika".
 _nazwy_core = {re.sub(r"[^A-Z0-9]", "", x.nazwa.upper()) for x in _ARTYKULY}
 for _dane in DANE_SLOWNIKA:
@@ -329,7 +320,7 @@ def kalkuluj(dane: dict[str, Any]) -> pd.DataFrame:
         for kod in ("PSIK", "REKAWICZKI", "CZYSCIWO", "WORKI", "WIADERKO"):
             dodaj(wiersze, kod, 1, "DODATKI")
 
-    # Laczymy identyczne pozycje, aby jedna pozycja nie wystepowala kilka razy.
+    # Laczenie identycznych pozycji
     wynik: dict[tuple[str, str], dict[str, Any]] = {}
     for wiersz in wiersze:
         klucz = (wiersz["Sekcja"], wiersz["Artykuł"])
