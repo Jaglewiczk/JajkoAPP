@@ -1,8 +1,3 @@
-"""Pelny slownik zrodlowy zaszyty w kodzie aplikacji.
-
-Dane sa zakodowane jako JSON w Base64, aby zachowac polskie znaki i nie
-zalezec od pliku Excel w czasie dzialania aplikacji.
-"""
 
 import base64
 import json
